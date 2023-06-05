@@ -1,0 +1,76 @@
+﻿@model RealEstateMarket.Models.ViewModels.BrokeragesViewModel
+
+@{
+    ViewData["Title"] = "Clients Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Last Name
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Birth Date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Clients) {
+        <tr>
+            <td>
+                @item.LastName
+            </td>
+            <td>
+                @item.FirstName
+            </td>
+            <td>
+                    @item.BirthDate.ToString("yyyy/MM/dd")
+            </td>
+            <td>
+                <a asp-action="Index" asp-route-id="@item.Id">Select</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="EditSubscriptions" asp-route-id="@item.Id">Edit Subscriptions</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@if (Model.Subscriptions != null)
+{
+    <h3>
+        Member of the following brokerages:
+    </h3>
+    <table class="table">
+        <tr>
+            @if (Model.Subscriptions.Count() > 0)
+            {
+                <th> Name </th>
+            }
+            else
+            {
+                <th> No subscription record exists </th>
+            }
+        </tr>
+        @foreach (var item in Model.Subscriptions)
+        {
+            <tr>
+                <td>
+                    @item.Brokerage.Title
+                </td>
+            </tr>
+        }
+    </table>
+}

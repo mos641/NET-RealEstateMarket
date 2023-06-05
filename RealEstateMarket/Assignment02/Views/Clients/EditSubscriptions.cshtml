@@ -1,0 +1,64 @@
+﻿@model RealEstateMarket.Models.ViewModels.ClientSubscriptionsViewModel
+
+@{
+    ViewData["Title"] = "Client Subscriptions";
+}
+
+<h1>Edit Subscriptions</h1>
+
+<div>
+    <h4>Client</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Full Name
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.Client.FullName
+        </dd>
+    </dl>
+</div>
+<hr />
+<h4>Subscriptions</h4>
+
+<hr />
+@if(Model.Subscribed.Count() == 0 && Model.NonSubscribed.Count() == 0)
+{
+    <dt class="col-sm-2">
+        No Brokerages exist
+    </dt>
+    <hr />
+}
+@foreach (var item in Model.NonSubscribed)
+{
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @item.Title
+        </dt>
+        <dd class = "col-sm-10">
+            <a asp-action="ChangeRegistration" asp-route-clientId="@Model.Client.Id" asp-route-brokerageId="@item.Id" asp-route-register="true">Register</a>
+        </dd>
+    </dl>
+}
+@if (Model.NonSubscribed.Count() > 0 && Model.Subscribed.Count() > 0)
+{
+    <hr />
+}
+@foreach (var item in Model.Subscribed)
+{
+    <dl class="row">
+        <dt class="col-sm-2">
+            @item.Title
+        </dt>
+        <dd class="col-sm-10">
+            <a asp-action="ChangeRegistration" asp-route-clientId="@Model.Client.Id" asp-route-brokerageId="@item.Id" asp-route-register="false">Unregister</a>
+        </dd>
+    </dl>
+}
+@if (Model.NonSubscribed.Count() > 0 || Model.Subscribed.Count() > 0)
+{
+    <hr />
+}
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
